@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qp-config
+data:
+  application.properties: |-
+    bootstrap.servers=kafka:9071
+    keystore.location=/mnt/sslcerts/keystore.jks
+    truststore.location=/mnt/sslcerts/truststore.jks
+    client.id=pump
+    security.protocol=SSL
