@@ -1,12 +1,14 @@
 apiVersion: platform.confluent.io/v1beta1
 kind: KafkaTopic
 metadata:
-  name: volume-test
+  name: tqp-volume-test
 spec:
+  name: tqp.volume.test
   replicas: 2
   partitionCount: 1
   kafkaClusterRef:
     name: kafka
   kafkaRestClassRef:
     name: default
-
+  configs:
+    retention.ms: "7200000" #2hr

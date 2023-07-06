@@ -1,4 +1,4 @@
-package io.nermdev.kafka.quota_client;
+package io.nermdev.kafka.quota_client.config;
 
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -46,6 +46,7 @@ public final class MTLSProducerConfig extends AbstractClientConfig<MTLSProducerC
       ProducerConfig.class,
       SecurityConfig.class,
       SslConfigs.class
+
     };
   }
 

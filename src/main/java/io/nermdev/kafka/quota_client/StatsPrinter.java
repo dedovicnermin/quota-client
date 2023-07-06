@@ -2,7 +2,7 @@ package io.nermdev.kafka.quota_client;
 
 import static java.lang.System.*;
 
-final class StatsPrinter {
+public final class StatsPrinter {
   private static final long PRINT_INTERVAL_MS = 1_000;
 
   private final long startTime = System.currentTimeMillis();
@@ -10,11 +10,11 @@ final class StatsPrinter {
   private long lastRecordCount = 0;
   private long totalRecordCount = 0;
 
-  void accumulateRecord() {
+  public void accumulateRecord() {
     totalRecordCount++;
   }
 
-  void maybePrintStats() {
+  public void maybePrintStats() {
     final var now = System.currentTimeMillis();
     final var lastPrintAgo = now - timestampOfLastPrint;
     if (lastPrintAgo > PRINT_INTERVAL_MS) {

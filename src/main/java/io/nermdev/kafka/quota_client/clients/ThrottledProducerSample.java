@@ -1,38 +1,20 @@
-package io.nermdev.kafka.quota_client;
+package io.nermdev.kafka.quota_client.clients;
 
 import java.util.Properties;
 import java.util.concurrent.atomic.*;
 
+import io.nermdev.kafka.quota_client.StatsPrinter;
 import org.apache.kafka.clients.producer.*;
+
+import static io.nermdev.kafka.quota_client.Utils.getProperties;
 
 public final class ThrottledProducerSample {
   public static void main(String[] args) throws InterruptedException {
-    final var topic = "volume-test";
-    if (args.length < 1) throw new IllegalArgumentException("Pass path to application.properties");
-    final Properties properties = new Properties();
-    Utils.loadConfig(args[0], properties);
-
-    AbstractClientConfig<?> config;
-    if (properties.getProperty("security.protocol").contains("SASL")) {
-      config = new SaslProducerConfig()
-              .withBootstrapServers(properties.getProperty("bootstrap.servers"))
-              .withUsername(properties.getProperty("username"))
-              .withPassword(properties.getProperty("password"))
-              .withClientId(properties.getProperty("client.id"))
-              .withTruststoreLocation(properties.getProperty("truststore.location"));
-
-    } else {
-      config = new MTLSProducerConfig()
-              .withBootstrapServers(properties.getProperty("bootstrap.servers"))
-              .withKeystoreLocation(properties.getProperty("keystore.location"))
-              .withClientId(properties.getProperty("client.id"))
-              .withTruststoreLocation(properties.getProperty("truststore.location"));
-
-    }
+    final Properties properties = getProperties(args);
+    final String topic = (String) properties.getOrDefault("topic", "volume-test");
 
 
-    final var props = config.mapify();
-    try (var producer = new KafkaProducer<String, String>(props)) {
+    try (var producer = new KafkaProducer<String, String>(properties)) {
       final var backpressure = new Backpressure();
       final var statsPrinter = new StatsPrinter();
 
@@ -58,6 +40,8 @@ public final class ThrottledProducerSample {
       }
     }
   }
+
+
 
   private interface BackpressureHandler {
     void exert() throws InterruptedException;

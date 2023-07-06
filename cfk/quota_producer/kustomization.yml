@@ -4,6 +4,12 @@ kind: Kustomization
 namespace: dev
 
 resources:
+  - cfrb.yml
   - topic.yml
   - config.yml
   - pod.yml
+
+images:
+  - name: dedovicnermin/quota-client
+    newTag: 1.2.0
+

@@ -6,4 +6,10 @@ namespace: dev
 resources:
   - topic.yml
   - config.yml
+  - cfrb.yml
   - pod.yml
+
+images:
+  - name: dedovicnermin/quota-client
+    newTag: 1.2.0
+

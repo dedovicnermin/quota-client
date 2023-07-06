@@ -8,13 +8,13 @@ metadata:
 spec:
   containers:
     - name: quota-client
-      image: dedovicnermin/quota-client:1.0.0
+      image: dedovicnermin/quota-client
       imagePullPolicy: Always
       command:
         - java
         - -cp
         - /app/app.jar
-        - io.nermdev.kafka.quota_client.QuotaProducerSample
+        - io.nermdev.kafka.quota_client.clients.QuotaProducerSample
       args:
         - /mnt/application/application.properties
       resources:
@@ -32,4 +32,4 @@ spec:
         name: qp-config
     - name: security
       secret:
-        secretName: tls-nermin
+        secretName: tls-dev2

@@ -1,0 +1,19 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: ConfluentRolebinding
+metadata:
+  name: quota.client.bqp
+  labels:
+    principal: dev1
+    cscope: kafka
+    role: DeveloperWrite
+spec:
+  role: DeveloperWrite
+  principal:
+    name: dev1
+    type: user
+  resourcePatterns:
+    - name: bqp
+      resourceType: Topic
+      patternType: PREFIXED
+  kafkaRestClassRef:
+    name: default

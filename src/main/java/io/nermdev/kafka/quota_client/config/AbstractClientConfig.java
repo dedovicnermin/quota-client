@@ -1,4 +1,4 @@
-package io.nermdev.kafka.quota_client;
+package io.nermdev.kafka.quota_client.config;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

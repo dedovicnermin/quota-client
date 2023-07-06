@@ -4,8 +4,16 @@ metadata:
   name: bqp-config
 data:
   application.properties: |-
+    # buffer.memory intentionally set to below value
+    buffer.memory=100000
     bootstrap.servers=kafka:9071
-    keystore.location=/mnt/sslcerts/keystore.jks
-    truststore.location=/mnt/sslcerts/truststore.jks
-    client.id=pump
     security.protocol=SSL
+    ssl.keystore.location=/mnt/sslcerts/keystore.jks
+    ssl.keystore.password=mystorepassword
+    ssl.key.password=mystorepassword
+    ssl.truststore.location=/mnt/sslcerts/truststore.jks
+    ssl.truststore.password=mystorepassword
+    client.id=bqp.pump
+    topic=bqp.volume.test
+    key.serializer=org.apache.kafka.common.serialization.StringSerializer
+    value.serializer=org.apache.kafka.common.serialization.StringSerializer

@@ -54,7 +54,7 @@ RUN mkdir /app && \
 USER 1000
 COPY --from=packager --chown=1000:1000 target/quota-client-jar-with-dependencies.jar /app/app.jar
 COPY --from=packager --chown=1000:1000 target/classes/log4j.properties /app/log4j.properties
-COPY --chown=1000:1000 ./exporter/jmx_prometheus_javaagent-0.17.0.jar /app/jmx_prometheus_javaagent.jar
+COPY --chown=1000:1000 ./exporter/jmx_prometheus_javaagent-0.19.0.jar /app/jmx_prometheus_javaagent.jar
 COPY --chown=1000:1000 ./exporter/kafka_client.yml /app/kafka_client.yml
 
 ENV JAVA_TOOL_OPTIONS "-Dcom.sun.management.jmxremote.ssl=false \

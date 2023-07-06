@@ -97,4 +97,4 @@ Elapsed: 31 s; Rate: current 10 rec/s, average 13 rec/s
 Elapsed: 32 s; Rate: current 10 rec/s, average 13 rec/s
 ```
 
-java -cp quota-client-jar-with-dependencies.jar io.nermdev.kafka.quota_client.BufferedQuotaProducerSample ../src/main/resources/application.properties
+java -cp quota-client-jar-with-dependencies.jar io.nermdev.kafka.quota_client.clients.BufferedQuotaProducerSample ../src/main/resources/application.properties
