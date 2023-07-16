@@ -5,18 +5,30 @@ steps:
       - kustomize build cfk/quota_producer > /dev/null
     plugins:
       - docker#v5.8.0:
-          image: dedovicnermin/pscfk-buildkite:0.0.5
+          image: dedovicnermin/pscfk-buildkite:0.0.6
+          propagate-uid-gid: true
 
   - label: ":kafka::k8s: Build bqp client kustomization :superfly:"
     commands:
       - kustomize build cfk/buffered_quota_producer > /dev/null
     plugins:
       - docker#v5.8.0:
-          image: dedovicnermin/pscfk-buildkite:0.0.5
+          image: dedovicnermin/pscfk-buildkite:0.0.6
+          propagate-uid-gid: true
 
   - label: ":kafka::k8s: Build tqp client kustomization :superfly:"
     commands:
       - kustomize build cfk/throttled_quota_producer > /dev/null
     plugins:
       - docker#v5.8.0:
-          image: dedovicnermin/pscfk-buildkite:0.0.5
+          image: dedovicnermin/pscfk-buildkite:0.0.6
+          propagate-uid-gid: true
+
+  - label: "mvn clean install :maven::java: "
+    commands:
+      - mvn clean install
+      - mvn clean
+    plugins:
+      - docker#v5.8.0:
+          image: dedovicnermin/pscfk-buildkite:0.0.6
+          propagate-uid-gid: true
