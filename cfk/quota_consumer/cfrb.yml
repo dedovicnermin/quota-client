@@ -1,0 +1,24 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: ConfluentRolebinding
+metadata:
+  name: quota.client.qc
+  labels:
+    principal: dev1
+    cscope: kafka
+    role: DeveloperRead
+spec:
+  role: DeveloperRead
+  principal:
+    name: dev1
+    type: user
+  resourcePatterns:
+    - name: qc
+      resourceType: Topic
+      patternType: PREFIXED
+    - name: volume-test
+      resourceType: Topic
+    - name: qc
+      resourceType: Group
+      patternType: PREFIXED
+  kafkaRestClassRef:
+    name: default

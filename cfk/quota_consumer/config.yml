@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qc-config
+data:
+  application.properties: |-
+    auto.commit.enabled=false
+    auto.offset.reset=earliest
+    group.id=qc001
+    bootstrap.servers=kafka:9071
+    security.protocol=SSL
+    ssl.keystore.location=/mnt/sslcerts/keystore.jks
+    ssl.keystore.password=mystorepassword
+    ssl.key.password=mystorepassword
+    ssl.truststore.location=/mnt/sslcerts/truststore.jks
+    ssl.truststore.password=mystorepassword
+    client.id=qc.pump
+    topic=qc.volume.test
+    key.serializer=org.apache.kafka.common.serialization.StringSerializer
+    value.serializer=org.apache.kafka.common.serialization.StringSerializer
