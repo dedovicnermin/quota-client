@@ -12,7 +12,13 @@ spec:
     name: dev1
     type: user
   resourcePatterns:
-    - name: qc
+    - name: qp
+      resourceType: Topic
+      patternType: PREFIXED
+    - name: tq
+      resourceType: Topic
+      patternType: PREFIXED
+    - name: bq
       resourceType: Topic
       patternType: PREFIXED
     - name: volume-test

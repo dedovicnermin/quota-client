@@ -15,6 +15,6 @@ data:
     ssl.truststore.location=/mnt/sslcerts/truststore.jks
     ssl.truststore.password=mystorepassword
     client.id=qc.pump
-    topic=qc.volume.test
-    key.serializer=org.apache.kafka.common.serialization.StringSerializer
-    value.serializer=org.apache.kafka.common.serialization.StringSerializer
+    topic=qp.volume.test
+    key.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+    value.deserializer=org.apache.kafka.common.serialization.StringDeserializer

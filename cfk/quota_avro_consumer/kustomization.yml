@@ -10,5 +10,5 @@ resources:
 
 images:
   - name: dedovicnermin/quota-client
-    newTag: 1.2.1
+    newTag: 1.2.2
 
