@@ -3,8 +3,8 @@ kind: KafkaTopic
 metadata:
   name: tqp-volume-test
 spec:
-  name: tqp.volume.test
-  replicas: 2
+  name: unknown
+  replicas: 1
   partitionCount: 1
   kafkaClusterRef:
     name: kafka

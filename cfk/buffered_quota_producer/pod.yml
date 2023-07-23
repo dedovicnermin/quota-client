@@ -14,7 +14,7 @@ spec:
         - java
         - -cp
         - /app/app.jar
-        - io.nermdev.kafka.quota_client.clients.BufferedQuotaProducerSample
+        - io.nermdev.kafka.quota_client.clients.producer.BufferedQuotaProducerSample
       args:
         - /mnt/application/application.properties
       resources:
@@ -32,4 +32,4 @@ spec:
         name: bqp-config
     - name: security
       secret:
-        secretName: tls-dev1
+        secretName: unknown

@@ -3,13 +3,13 @@ kind: ConfluentRolebinding
 metadata:
   name: quota.client.tqp
   labels:
-    principal: dev3
+    principal: unknown
     cscope: kafka
     role: DeveloperWrite
 spec:
   role: DeveloperWrite
   principal:
-    name: dev3
+    name: unknown
     type: user
   resourcePatterns:
     - name: tqp
