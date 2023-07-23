@@ -3,16 +3,19 @@ kind: ConfluentRolebinding
 metadata:
   name: quota.client.bqp
   labels:
-    principal: dev1
+    principal: unknown
     cscope: kafka
     role: DeveloperWrite
 spec:
   role: DeveloperWrite
   principal:
-    name: dev1
+    name: unknown
     type: user
   resourcePatterns:
     - name: bqp
+      resourceType: Topic
+      patternType: PREFIXED
+    - name: demo
       resourceType: Topic
       patternType: PREFIXED
   kafkaRestClassRef:

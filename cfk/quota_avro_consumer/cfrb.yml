@@ -1,0 +1,44 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: ConfluentRolebinding
+metadata:
+  name: quota.client.qac.kafka
+  labels:
+    principal: ???
+    cscope: kafka
+    role: DeveloperRead
+spec:
+  role: DeveloperRead
+  principal:
+    name: ???
+    type: user
+  resourcePatterns:
+    - name: avro
+      patternType: PREFIXED
+      resourceType: Topic
+    - name: qac
+      patternType: PREFIXED
+      resourceType: Group
+  kafkaRestClassRef:
+    name: default
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: ConfluentRolebinding
+metadata:
+  name: quota.client.qac.sr
+  labels:
+    principal: ???
+    cscope: kafkasr
+    role: DeveloperRead
+spec:
+  role: DeveloperRead
+  principal:
+    name: ???
+    type: user
+  clustersScopeByIds:
+    schemaRegistryClusterId: id_sr_dev
+  resourcePatterns:
+    - name: avro
+      patternType: PREFIXED
+      resourceType: Subject
+  kafkaRestClassRef:
+    name: default

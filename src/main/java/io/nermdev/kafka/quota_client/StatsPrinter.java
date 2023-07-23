@@ -1,6 +1,7 @@
 package io.nermdev.kafka.quota_client;
 
-import static java.lang.System.*;
+
+import static java.lang.System.out;
 
 public final class StatsPrinter {
   private static final long PRINT_INTERVAL_MS = 1_000;

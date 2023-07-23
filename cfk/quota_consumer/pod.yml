@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: bqp
+  name: qc
   annotations:
     prometheus.io/port: "7778"
     prometheus.io/scrape: "true"
 spec:
   containers:
-    - name: buffered-quota-client
+    - name: quota-client
       image: dedovicnermin/quota-client
       imagePullPolicy: Always
       command:
         - java
         - -cp
         - /app/app.jar
-        - io.nermdev.kafka.quota_client.clients.producer.BufferedQuotaProducerSample
+        - io.nermdev.kafka.quota_client.clients.consumer.QuotaConsumerSample
       args:
         - /mnt/application/application.properties
       resources:
@@ -29,7 +29,7 @@ spec:
   volumes:
     - name: appconfig
       configMap:
-        name: bqp-config
+        name: qc-config
     - name: security
       secret:
-        secretName: unknown
+        secretName: tls-dev2

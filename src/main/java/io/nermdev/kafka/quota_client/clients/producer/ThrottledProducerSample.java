@@ -1,15 +1,19 @@
-package io.nermdev.kafka.quota_client.clients;
+package io.nermdev.kafka.quota_client.clients.producer;
 
 import java.util.Properties;
-import java.util.concurrent.atomic.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 import io.nermdev.kafka.quota_client.StatsPrinter;
-import org.apache.kafka.clients.producer.*;
+import io.nermdev.kafka.quota_client.framework.exception.ClientConfigException;
+import org.apache.kafka.clients.producer.Callback;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 
-import static io.nermdev.kafka.quota_client.Utils.getProperties;
+import static io.nermdev.kafka.quota_client.framework.config.ConfigUtils.getProperties;
 
 public final class ThrottledProducerSample {
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws InterruptedException, ClientConfigException {
     final Properties properties = getProperties(args);
     final String topic = (String) properties.getOrDefault("topic", "volume-test");
 

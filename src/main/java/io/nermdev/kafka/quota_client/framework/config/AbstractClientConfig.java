@@ -1,8 +1,15 @@
-package io.nermdev.kafka.quota_client.config;
+package io.nermdev.kafka.quota_client.framework.config;
+
+import io.nermdev.kafka.quota_client.framework.exception.ClientConfigException;
+import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.function.Predicate.not;
@@ -57,7 +64,7 @@ public abstract class AbstractClientConfig<C extends AbstractClientConfig<?>> {
     }
     
     public void append(String key, Object value) {
-      stagingConfig.compute(key, (__key, existingValue) -> {
+      stagingConfig.compute(key, (k, existingValue) -> {
         if (existingValue == null) {
           return value;
         } else {
@@ -94,11 +101,12 @@ public abstract class AbstractClientConfig<C extends AbstractClientConfig<?>> {
     return field.getName().endsWith("_DOC");
   }
   
+  @SneakyThrows
   private static String retrieveField(Field field) {
     try {
       return (String) field.get(null);
     } catch (IllegalArgumentException | IllegalAccessException e) {
-      throw new RuntimeException(e);
+      throw new ClientConfigException(e);
     }
   }
 }

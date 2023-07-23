@@ -5,15 +5,16 @@ namespace: dev
 
 resources:
   - cfrb.yml
-  - topic.yml
   - pod.yml
 
 images:
   - name: dedovicnermin/quota-client
     newTag: 1.2.3
 
+
+
 configMapGenerator:
-  - name: tqp-config
+  - name: qac-config
     behavior: create
     files:
       - application.properties
@@ -26,26 +27,15 @@ patches:
     patch: |-
       - op: replace
         path: /metadata/labels/principal
-        value: dev3
+        value: dev1
       - op: replace
         path: /spec/principal/name
-        value: dev3
+        value: dev1
   - target:
       version: v1
       kind: Pod
     patch: |-
       - op: replace
         path: /spec/volumes/1/secret/secretName
-        value: tls-dev3
+        value: tls-dev1
 
-  - target:
-      group: platform.confluent.io
-      version: v1beta1
-      kind: KafkaTopic
-    patch: |-
-      - op: replace
-        path: /spec/name
-        value: tqp.volume.test
-      - op: replace
-        path: /spec/replicas
-        value: 1
