@@ -6,7 +6,7 @@ data:
   application.properties: |-
     auto.commit.enabled=false
     auto.offset.reset=earliest
-    group.id=qac001
+    group.id=qac
     bootstrap.servers=kafka:9071
     security.protocol=SSL
     ssl.keystore.location=/mnt/sslcerts/keystore.jks
@@ -14,9 +14,9 @@ data:
     ssl.key.password=mystorepassword
     ssl.truststore.location=/mnt/sslcerts/truststore.jks
     ssl.truststore.password=mystorepassword
-    client.id=qac.pump
-    topic=avro.stores
-    key.deserializer=io.confluent.kafka.serializers.KafkaAvroDeserializer
+    client.id=qac.avro.consumer
+    topic=avro.campaign.finance
+    key.deserializer=org.apache.kafka.common.serialization.StringDeserializer
     value.deserializer=io.confluent.kafka.serializers.KafkaAvroDeserializer
     schema.registry.url=https://sr:8081
     schema.registry.ssl.truststore.location=/mnt/sslcerts/truststore.jks

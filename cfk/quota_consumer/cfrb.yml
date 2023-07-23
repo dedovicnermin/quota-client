@@ -3,13 +3,13 @@ kind: ConfluentRolebinding
 metadata:
   name: quota.client.qc
   labels:
-    principal: dev1
+    principal: ???
     cscope: kafka
     role: DeveloperRead
 spec:
   role: DeveloperRead
   principal:
-    name: dev1
+    name: ???
     type: user
   resourcePatterns:
     - name: qp
@@ -25,6 +25,9 @@ spec:
       resourceType: Topic
     - name: qc
       resourceType: Group
+      patternType: PREFIXED
+    - name: demo
+      resourceType: Topic
       patternType: PREFIXED
   kafkaRestClassRef:
     name: default

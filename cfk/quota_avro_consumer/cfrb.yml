@@ -3,13 +3,13 @@ kind: ConfluentRolebinding
 metadata:
   name: quota.client.qac.kafka
   labels:
-    principal: dev1
+    principal: ???
     cscope: kafka
     role: DeveloperRead
 spec:
   role: DeveloperRead
   principal:
-    name: dev1
+    name: ???
     type: user
   resourcePatterns:
     - name: avro
@@ -26,13 +26,13 @@ kind: ConfluentRolebinding
 metadata:
   name: quota.client.qac.sr
   labels:
-    principal: dev1
-    cscope: kafka
+    principal: ???
+    cscope: kafkasr
     role: DeveloperRead
 spec:
   role: DeveloperRead
   principal:
-    name: dev1
+    name: ???
     type: user
   clustersScopeByIds:
     schemaRegistryClusterId: id_sr_dev

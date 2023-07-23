@@ -14,7 +14,7 @@ spec:
         - java
         - -cp
         - /app/app.jar
-        - io.nermdev.kafka.quota_client.clients.QuotaAvroConsumer
+        - io.nermdev.kafka.quota_client.clients.consumer.QuotaAvroConsumer
       args:
         - /mnt/application/application.properties
       resources:
@@ -32,4 +32,4 @@ spec:
         name: qac-config
     - name: security
       secret:
-        secretName: tls-dev1
+        secretName: ???
