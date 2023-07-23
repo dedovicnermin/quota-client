@@ -2,6 +2,7 @@ package io.nermdev.kafka.quota_client.framework;
 
 
 
+import io.nermdev.kafka.quota_client.framework.receiver.EventReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

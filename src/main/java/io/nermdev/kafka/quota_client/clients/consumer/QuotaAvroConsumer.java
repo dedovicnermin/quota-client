@@ -1,9 +1,10 @@
-package io.nermdev.kafka.quota_client.clients;
+package io.nermdev.kafka.quota_client.clients.consumer;
 
-import io.nermdev.kafka.quota_client.DateFormatter;
-import io.nermdev.kafka.quota_client.LoggingListener;
-import io.nermdev.kafka.quota_client.Utils;
-import io.nermdev.kafka.quota_client.framework.BaseReceiver;
+import io.nermdev.kafka.quota_client.StatsPrinter;
+import io.nermdev.kafka.quota_client.framework.exception.ClientConfigException;
+import io.nermdev.kafka.quota_client.framework.listener.LoggingListener;
+import io.nermdev.kafka.quota_client.framework.config.ConfigUtils;
+import io.nermdev.kafka.quota_client.framework.receiver.BaseReceiver;
 import io.nermdev.kafka.quota_client.framework.ConsumerCloser;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -13,18 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Properties;
 
 public class QuotaAvroConsumer extends BaseReceiver<GenericRecord, GenericRecord> {
-    public static void main(String[] args) {
-        final Properties properties = Utils.getProperties(args);
-        final QuotaAvroConsumer quotaAvroConsumer = new QuotaAvroConsumer(properties);
-        quotaAvroConsumer.addListener(new LoggingListener());
-        new Thread(quotaAvroConsumer).start();
-        Runtime.getRuntime().addShutdownHook(new Thread(new ConsumerCloser<>(quotaAvroConsumer)));
-    }
-
     private final KafkaConsumer<GenericRecord, GenericRecord> consumer;
     static final Logger log = LoggerFactory.getLogger(QuotaAvroConsumer.class);
 
@@ -33,25 +25,25 @@ public class QuotaAvroConsumer extends BaseReceiver<GenericRecord, GenericRecord
         consumer = new KafkaConsumer<>(consumerConfig);
     }
 
-    @Override
-    protected KafkaConsumer<GenericRecord, GenericRecord> getConsumer() {
-        return consumer;
-    }
+
 
     @Override
     public void run() {
+        final StatsPrinter statsPrinter = new StatsPrinter();
         consumer.subscribe(Collections.singleton(topic));
         try {
             while (true) {
                 final ConsumerRecords<GenericRecord, GenericRecord> records = consumer.poll(Duration.ofSeconds(1));
                 for (var record : records) {
-                    log.info("{} - [{}] - {} : {} " , DateFormatter.formatDateToString(new Date(record.timestamp()), "CST"), record.offset(), record.key(), record.value());
+                    fire(record);
+                    statsPrinter.accumulateRecord();
                 }
                 consumer.commitAsync();
+                statsPrinter.maybePrintStats();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("Something unexpected happened : {}", e.getMessage());
+            log.error("ERROR : {}", e.getMessage());
         } finally {
             try {
                 consumer.commitSync();
@@ -62,5 +54,20 @@ public class QuotaAvroConsumer extends BaseReceiver<GenericRecord, GenericRecord
                 log.info("---Consumer gracefully closed---");
             }
         }
+    }
+
+    @Override
+    protected KafkaConsumer<GenericRecord, GenericRecord> getConsumer() {
+        return consumer;
+    }
+    @Override
+    protected Logger getLogger() { return log; }
+
+    public static void main(String[] args) throws ClientConfigException {
+        final Properties properties = ConfigUtils.getProperties(args);
+        final QuotaAvroConsumer quotaAvroConsumer = new QuotaAvroConsumer(properties);
+        quotaAvroConsumer.addListener(new LoggingListener<>());
+        new Thread(quotaAvroConsumer).start();
+        Runtime.getRuntime().addShutdownHook(new Thread(new ConsumerCloser<>(quotaAvroConsumer)));
     }
 }

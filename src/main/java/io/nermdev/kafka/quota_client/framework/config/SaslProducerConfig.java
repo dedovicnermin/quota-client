@@ -1,14 +1,14 @@
-package io.nermdev.kafka.quota_client.config;
+package io.nermdev.kafka.quota_client.framework.config;
 
-import java.util.*;
-
-import org.apache.kafka.clients.*;
-import org.apache.kafka.clients.producer.*;
-import org.apache.kafka.common.config.*;
+import org.apache.kafka.clients.CommonClientConfigs;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.config.SaslConfigs;
+import org.apache.kafka.common.config.SecurityConfig;
+import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.security.plain.PlainLoginModule;
 import org.apache.kafka.common.serialization.*;
 
-
+import java.util.Objects;
 
 public final class SaslProducerConfig extends AbstractClientConfig<SaslProducerConfig> {
   private String bootstrapServers;
@@ -53,7 +53,7 @@ public final class SaslProducerConfig extends AbstractClientConfig<SaslProducerC
     return new Class<?>[] {
       CommonClientConfigs.class,
       ProducerConfig.class,
-      SecurityConfig.class, 
+      SecurityConfig.class,
       SaslConfigs.class,
       SslConfigs.class
     };
@@ -63,7 +63,7 @@ public final class SaslProducerConfig extends AbstractClientConfig<SaslProducerC
   protected void appendExpectedEntries(ExpectedEntryAppender expectedEntries) {
     expectedEntries.append(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
     expectedEntries.append(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-//    expectedEntries.append(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_SSL");
+    expectedEntries.append(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_SSL");
     expectedEntries.append(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, "https");
     expectedEntries.append(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, this.truststoreLocation);
     expectedEntries.append(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, "mystorepassword");

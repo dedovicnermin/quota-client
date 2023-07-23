@@ -1,10 +1,12 @@
-package io.nermdev.kafka.quota_client.framework;
+package io.nermdev.kafka.quota_client.framework.receiver;
 
 
+import io.nermdev.kafka.quota_client.framework.exception.ClientInterruptedException;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.slf4j.Logger;
+
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
-
 
 public abstract class BaseReceiver<K, V> extends AbstractReceiver<K, V> {
     protected final String topic;
@@ -18,8 +20,8 @@ public abstract class BaseReceiver<K, V> extends AbstractReceiver<K, V> {
     }
 
 
-
     protected abstract KafkaConsumer<K, V> getConsumer();
+    protected abstract Logger getLogger();
 
 
     @Override
@@ -29,20 +31,15 @@ public abstract class BaseReceiver<K, V> extends AbstractReceiver<K, V> {
 
     @Override
     public void close() {
-        System.out.println("BaseReceiver.close() invoked. Waking up consumer");
+        getLogger().info("BaseReceiver.close() invoked. Waking up consumer");
         getConsumer().wakeup();
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            System.err.printf("Interrupted exception catch block (EXCEPTION) : %s", e.getMessage());
-            System.err.println();
-            throw new RuntimeException("Interrupt occurred during receiver shutdown \n",e);
+            getLogger().error("Interrupted exception catch block (EXCEPTION) : {}", e.getMessage());
+            throw new ClientInterruptedException("Interrupt occurred during receiver shutdown \n",e);
         }
-        System.out.println("Receiver and consumer closed");
+        getLogger().info("Receiver and consumer closed");
     }
-
-
-
-
 }

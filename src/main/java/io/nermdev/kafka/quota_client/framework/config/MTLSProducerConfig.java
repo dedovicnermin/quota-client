@@ -1,4 +1,4 @@
-package io.nermdev.kafka.quota_client.config;
+package io.nermdev.kafka.quota_client.framework.config;
 
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.ProducerConfig;
