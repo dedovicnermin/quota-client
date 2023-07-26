@@ -1,9 +1,11 @@
 package io.nermdev.kafka.quota_client;
 
 
-import static java.lang.System.out;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class StatsPrinter {
+  static final Logger log = LoggerFactory.getLogger(StatsPrinter.class);
   private static final long PRINT_INTERVAL_MS = 1_000;
 
   private final long startTime = System.currentTimeMillis();
@@ -23,9 +25,11 @@ public final class StatsPrinter {
       final var periodRecords = totalRecordCount - lastRecordCount;
       final var currentRate = rate(periodRecords, lastPrintAgo);
       final var averageRate = rate(totalRecordCount, elapsedTime);
-      out.printf("Elapsed: %,d s; " + 
-                 "Rate: current %,.0f rec/s, average %,.0f rec/s%n",
-                 elapsedTime / 1000, currentRate, averageRate);
+      final String format = String.format("Elapsed: %,d s; " +
+                      "Rate: current %,.0f rec/s, average %,.0f rec/s",
+              elapsedTime / 1000, currentRate, averageRate);
+      log.info(format);
+
       lastRecordCount = totalRecordCount;
       timestampOfLastPrint = now;
     }
